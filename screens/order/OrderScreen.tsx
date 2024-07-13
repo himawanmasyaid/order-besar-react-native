@@ -16,13 +16,17 @@ import {
   Text,
   View,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import containerstyle from "styles/containerstyle";
 import textstyle from "styles/textstyle";
 
 const OrderScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const orderRepository = new OrderRepository(new GetOrderUseCase(), new GetOrderDetailUseCase());
+  const orderRepository = new OrderRepository(
+    new GetOrderUseCase(),
+    new GetOrderDetailUseCase()
+  );
 
   const [orders, setOrder] = useState<Order[]>([]);
   const [isLoading, setLoading] = useState(false);
@@ -33,6 +37,7 @@ const OrderScreen = () => {
 
   const fetchOrders = async () => {
     console.log("fetchOrders");
+    console.log("page : ", page);
 
     setLoading(true);
 
@@ -40,9 +45,23 @@ const OrderScreen = () => {
 
     console.log("order response :", order);
 
-    setOrder(order.list);
+    setOrder([...orders, ...order.list]);
+
+    // setOrder(order.list);
 
     setLoading(false);
+
+    if (order.list.length < limit) {
+      setHasMore(false);
+    }
+
+  };
+
+  const fetchOrderLoadMore = () => {
+    if (isHasMore) {
+      setPage(page + 1);
+      fetchOrders()
+    }
   };
 
   useEffect(() => {
@@ -53,18 +72,36 @@ const OrderScreen = () => {
   return (
     <SafeAreaView style={containerstyle.safearea}>
       <View style={styles.container}>
-        <FlatList
-          data={orders}
-          renderItem={({ item }) => (
-            <ItemOrder
-              order={item}
-              onEditPress={() => navigation.navigate("order_edit", item)}
-              onDetailPress={() => navigation.navigate("order_detail", item)}
-              onDeletePress={() => setShowDeleteModal(true)}
-            />
-          )}
-          keyExtractor={(item) => item.id}
-        />
+        {isLoading && page === 1 ? (
+          <View style={styles.wrapper_indicator}>
+            <ActivityIndicator size="large" color="#1BA8DF" />
+          </View>
+        ) : (
+          <FlatList
+            data={orders}
+            renderItem={({ item }) => (
+              <ItemOrder
+                order={item}
+                onEditPress={() => navigation.navigate("order_edit", item)}
+                onDetailPress={() => navigation.navigate("order_detail", item)}
+                onDeletePress={() => setShowDeleteModal(true)}
+              />
+            )}
+            keyExtractor={(item) => item.id}
+            onEndReached={fetchOrderLoadMore}
+            onEndReachedThreshold={0.5}
+            ListFooterComponent={
+              isHasMore ? (
+                <View style={styles.wrapper_indicator}>
+                  <ActivityIndicator size="large" color="#052A49" />
+                </View>
+              ) 
+              : (
+                <Text style={styles.no_more_data}>No More Data</Text>
+              )
+            }
+          />
+        )}
 
         {/* modal popup delete order */}
 
@@ -178,11 +215,20 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
 
-  wrapper_center: {
+  wrapper_indicator: {
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
   },
+
+  no_more_data: {
+    ...textstyle.TextParagraph2,
+    textAlign: 'center',
+    fontSize: 16,
+    padding: 16,
+    color: '#999',
+  },
+
 });
 
 export default OrderScreen;
