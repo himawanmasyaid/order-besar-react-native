@@ -36,14 +36,10 @@ const OrderScreen = () => {
   const [isShowDeleteModal, setShowDeleteModal] = useState(false);
 
   const fetchOrders = async () => {
-    console.log("fetchOrders");
-    console.log("page : ", page);
 
     setLoading(true);
 
     const order = await orderRepository.getOrders(page, limit);
-
-    console.log("order response :", order);
 
     setOrder([...orders, ...order.list]);
 
@@ -65,7 +61,6 @@ const OrderScreen = () => {
   };
 
   useEffect(() => {
-    console.log("useEffect");
     fetchOrders();
   }, [page, limit]);
 

@@ -43,20 +43,16 @@ const OrderEditScreen = ({
   const [isLoading, setLoading] = useState(false);
 
   const fetchProduct = async () => {
-    console.log("=== fetch Product ===");
-
     const response = await productRepository.getProduct();
     setProducts(response.data);
   };
 
   const fetchOrderDetail = async () => {
-    console.log("=== fetch Orders Detail ===");
     const response = await orderRepository.getOrderDetail(order.id);
     setOrderProducts(response.products);
   };
 
   const handleFetchData = async () => {
-    console.log("order edit screen mount");
     setLoading(true);
     await fetchOrderDetail();
     await fetchProduct();
@@ -64,7 +60,6 @@ const OrderEditScreen = ({
   };
 
   useEffect(() => {
-    console.log("order edit screen use effect");
     handleFetchData();
   }, []);
 

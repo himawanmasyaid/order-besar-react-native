@@ -19,8 +19,9 @@ import { Dropdown } from "react-native-element-dropdown";
 import containerstyle from "styles/containerstyle";
 import textstyle from "styles/textstyle";
 
-const OrderCreateScreen = ({navigation}: NativeStackScreenProps<RootStackParamList>) => {
-
+const OrderCreateScreen = ({
+  navigation,
+}: NativeStackScreenProps<RootStackParamList>) => {
   const productRepository = new ProductRepository(new GetProductUseCase());
 
   const [productsList, setProductList] = useState<Product[]>([]);
@@ -31,13 +32,9 @@ const OrderCreateScreen = ({navigation}: NativeStackScreenProps<RootStackParamLi
   const [customerName, setCustomerName] = useState<string>();
 
   const fetchProducts = useCallback(async () => {
-    console.log("fetch product");
-
     setLoading(true);
 
     const products = await productRepository.getProduct();
-
-    console.log("products response :", products);
 
     setProductList(products.data);
 
@@ -45,7 +42,6 @@ const OrderCreateScreen = ({navigation}: NativeStackScreenProps<RootStackParamLi
   }, []);
 
   useEffect(() => {
-    console.log("useEffect");
     fetchProducts();
   }, [fetchProducts]);
 
@@ -59,13 +55,10 @@ const OrderCreateScreen = ({navigation}: NativeStackScreenProps<RootStackParamLi
     const text = result.replace(/^0/, "");
 
     if (text !== "0" && text.length > 0) {
-      console.log("text available");
-
       const quantityValue = parseInt(text, 10);
       setQuantity(quantityValue);
       setTotalPrice((product?.price ?? 0) * quantityValue);
     } else if (text == "") {
-      console.log("delete key pressed");
       setQuantity(0);
       setTotalPrice((product?.price ?? 0) * 0);
     }

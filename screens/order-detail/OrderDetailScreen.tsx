@@ -40,27 +40,15 @@ const OrderDetailScreen = ({
   const [orderId, setOrderId] = useState(String);
 
   const fetchOrderDetail = async () => {
-    console.log("=== fetch Orders Detail ===");
-
     setLoading(true);
 
     const order = await orderRepository.getOrderDetail(orderId);
     setProducts(order.products);
 
-    console.log("order data customer local : ", orderData?.customer_name);
-    console.log("order data customer response : ", order?.customer_name);
-    console.log("======");
-    console.log("order data id  : ", orderData?.id);
-    console.log("order response id  : ", order?.id);
-
-    console.log("order response :", order);
-    console.log("order product :", order.products);
-
     setLoading(false);
   };
 
   useEffect(() => {
-    console.log("useEffect");
     fetchOrderDetail();
     setOrderId(orderData.id);
   }, [orderId]);
