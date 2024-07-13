@@ -7,7 +7,15 @@ import { GetOrderUseCase } from "data/usecases/GetOrderUseCase";
 import { GetProductUseCase } from "data/usecases/GetProductUseCase";
 import { RootStackParamList } from "navigation/RootStackParamList";
 import { useEffect, useState } from "react";
-import { FlatList, Modal, SafeAreaView, StyleSheet, Text, View, TouchableOpacity} from "react-native";
+import {
+  FlatList,
+  Modal,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from "react-native";
 import containerstyle from "styles/containerstyle";
 import textstyle from "styles/textstyle";
 
@@ -31,7 +39,7 @@ const OrderScreen = () => {
 
     console.log("order response :", order);
 
-    setOrder(order.list)
+    setOrder(order.list);
 
     setLoading(false);
   };
@@ -44,59 +52,54 @@ const OrderScreen = () => {
   return (
     <SafeAreaView style={containerstyle.safearea}>
       <View style={styles.container}>
+        <FlatList
+          data={orders}
+          renderItem={({ item }) => (
+            <ItemOrder
+              order={item}
+              onEditPress={() => navigation.navigate("order_edit", item)}
+              onDetailPress={() => navigation.navigate("order_detail", item)}
+              onDeletePress={() => setShowDeleteModal(true)}
+            />
+          )}
+          keyExtractor={(item) => item.id}
+        />
 
-      <FlatList
-        data={orders}
-        renderItem={({ item }) => (
-          <ItemOrder
-            order={item}
-            onEditPress={() => navigation.navigate('order_edit', item) }
-            onDetailPress={() => navigation.navigate('order_detail', item)}
-            onDeletePress={() => setShowDeleteModal(true) }
-          />
-        )}
-        keyExtractor={(item) => item.id}
-      />
+        {/* modal popup delete order */}
 
-      {/* modal popup delete order */}
-
-      <View style={{ flex: 1 }}>
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={isShowDeleteModal}
-          onRequestClose={() => setShowDeleteModal(false)}
-        >
-          <View style={styles.modal_overlay}>
-            <View
-              style={{
-                backgroundColor: "#fff",
-                borderRadius: 8,
-                padding: 16,
-                width: "90%",
-                justifyContent: "center",
-                alignItems: "center",
-                marginHorizontal: 16,
-              }}
-            >
-              <Text style={textstyle.TextParagraph1Bold}>
-                Are You Sure To Delete This?
-              </Text>
-
-              <Text
-                style={[
-                  textstyle.TextParagraph2,
-                  { textAlign: "center", marginTop: 20 },
-                ]}
+        <View style={{ flex: 1 }}>
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={isShowDeleteModal}
+            onRequestClose={() => setShowDeleteModal(false)}
+          >
+            <View style={styles.modal_overlay}>
+              <View
+                style={{
+                  backgroundColor: "#fff",
+                  borderRadius: 8,
+                  padding: 16,
+                  width: "90%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginHorizontal: 16,
+                }}
               >
-                You can't recover data because it will be deleted permanently.
-              </Text>
+                <Text style={textstyle.TextParagraph1Bold}>
+                  Are You Sure To Delete This?
+                </Text>
 
-              <TouchableOpacity
-                  style={
-                    styles.button_outline_alert_modal
-                  }
+                <Text
+                  style={[
+                    textstyle.TextParagraph2,
+                    { textAlign: "center", marginTop: 20 },
+                  ]}
                 >
+                  You can't recover data because it will be deleted permanently.
+                </Text>
+
+                <TouchableOpacity style={styles.button_outline_alert_modal}>
                   <Text
                     style={[textstyle.TextParagraph1Bold, { color: "#EB5757" }]}
                   >
@@ -106,9 +109,7 @@ const OrderScreen = () => {
 
                 <TouchableOpacity
                   onPress={() => setShowDeleteModal(false)}
-                  style={
-                    styles.button_primary
-                  }
+                  style={styles.button_primary}
                 >
                   <Text
                     style={[textstyle.TextParagraph1Bold, { color: "#fff" }]}
@@ -116,12 +117,10 @@ const OrderScreen = () => {
                     Back
                   </Text>
                 </TouchableOpacity>
-
+              </View>
             </View>
-          </View>
-        </Modal>
-      </View>
-
+          </Modal>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -156,7 +155,7 @@ const styles = StyleSheet.create({
   },
 
   button_outline_alert_modal: {
-    justifyContent: "center", 
+    justifyContent: "center",
     alignItems: "center",
     borderColor: "#EB5757",
     borderWidth: 1,
@@ -165,17 +164,17 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     marginTop: 24,
     width: "100%",
-    borderRadius: 4
+    borderRadius: 4,
   },
 
   button_primary: {
-    justifyContent: "center", 
+    justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
     backgroundColor: "#052A49",
     paddingVertical: 8,
     width: "100%",
-    borderRadius: 4
+    borderRadius: 4,
   },
 
   wrapper_center: {
@@ -183,7 +182,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
   },
-
-})
+});
 
 export default OrderScreen;

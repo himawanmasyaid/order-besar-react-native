@@ -26,7 +26,7 @@ const RootNavigator = () => {
             ),
             headerLeft: () => (
               <TouchableOpacity
-                onPress={() => navigation.navigate("create_order")}
+                onPress={() => navigation.navigate("order_create")}
               >
                 <Image
                   source={require("../assets/ic_add.png")}
@@ -39,7 +39,7 @@ const RootNavigator = () => {
         <RootStack.Screen
           name="order_create"
           component={OrderCreateScreen}
-          options={{
+          options={({ navigation }) => ({
             headerShown: true,
             headerTitleAlign: "center",
             headerTitle: () => (
@@ -47,7 +47,7 @@ const RootNavigator = () => {
                 <Text style={styles.headerTitleText}>Add New Order</Text>
               </View>
             ),
-          }}
+          })}
         />
         <RootStack.Screen
           name="order_Detail"
