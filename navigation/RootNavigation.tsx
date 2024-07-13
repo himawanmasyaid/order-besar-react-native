@@ -21,7 +21,7 @@ const RootNavigator = () => {
             headerTitleAlign: "center",
             headerTitle: () => (
               <View style={styles.headerTitleContainer}>
-                <Text style={styles.headerTitleText}> Order </Text>
+                <Text style={styles.headerTitleText}>Order</Text>
               </View>
             ),
             headerLeft: () => (

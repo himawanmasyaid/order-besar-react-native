@@ -3,6 +3,7 @@ import ItemOrder from "components/ItemOrder";
 import { Order, OrderModel } from "data/model/OrderModel";
 import { OrderRepository } from "data/repository/OrderRepository";
 import { ProductRepository } from "data/repository/ProductRepository";
+import { GetOrderDetailUseCase } from "data/usecases/GetOrderDetailUseCase";
 import { GetOrderUseCase } from "data/usecases/GetOrderUseCase";
 import { GetProductUseCase } from "data/usecases/GetProductUseCase";
 import { RootStackParamList } from "navigation/RootStackParamList";
@@ -21,7 +22,7 @@ import textstyle from "styles/textstyle";
 
 const OrderScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const orderRepository = new OrderRepository(new GetOrderUseCase());
+  const orderRepository = new OrderRepository(new GetOrderUseCase(), new GetOrderDetailUseCase());
 
   const [orders, setOrder] = useState<Order[]>([]);
   const [isLoading, setLoading] = useState(false);
