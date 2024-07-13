@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
   headerTitleText: {
     ...textstyle.TextParagraph1Bold,
     textAlign: "center",
+    color: "#333333"
   },
 });
 
