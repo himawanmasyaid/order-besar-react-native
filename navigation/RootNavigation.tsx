@@ -50,7 +50,7 @@ const RootNavigator = () => {
           })}
         />
         <RootStack.Screen
-          name="order_Detail"
+          name="order_detail"
           component={OrderDetailScreen}
           options={({ route }) => ({
             headerShown: true,
