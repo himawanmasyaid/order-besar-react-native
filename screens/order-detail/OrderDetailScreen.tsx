@@ -1,7 +1,10 @@
 import { useRoute } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import ItemOrderProductDetail from "components/ItemOrderProductDetail";
-import { OrderDetailModel, ProductOrderDetail } from "data/model/OrderDetailModel";
+import {
+  OrderDetailModel,
+  ProductOrderDetail,
+} from "data/model/OrderDetailModel";
 import { OrderRepository } from "data/repository/OrderRepository";
 import { GetOrderDetailUseCase } from "data/usecases/GetOrderDetailUseCase";
 import { GetOrderUseCase } from "data/usecases/GetOrderUseCase";
@@ -10,30 +13,46 @@ import {
   RootStackParamList,
 } from "navigation/RootStackParamList";
 import { useEffect, useState } from "react";
-import { SafeAreaView, StyleSheet, ScrollView, Text, View, FlatList } from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  Text,
+  View,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
 import containerstyle from "styles/containerstyle";
 import textstyle from "styles/textstyle";
 
 const OrderDetailScreen = ({
   navigation,
 }: NativeStackScreenProps<RootStackParamList>) => {
-
   const route = useRoute<OrderDetailScreenProps>();
-  const order = route.params;
-  const orderRepository = new OrderRepository(new GetOrderUseCase(), new GetOrderDetailUseCase());
+  const orderData = route.params;
+  const orderRepository = new OrderRepository(
+    new GetOrderUseCase(),
+    new GetOrderDetailUseCase()
+  );
 
-  const [orders, setOrder] = useState<OrderDetailModel>();
+  const [order, setOrder] = useState<OrderDetailModel>();
   const [products, setProducts] = useState<ProductOrderDetail[]>();
   const [isLoading, setLoading] = useState(false);
   const [orderId, setOrderId] = useState(String);
 
   const fetchOrderDetail = async () => {
-    console.log("fetch Orders Detail");
+    console.log("=== fetch Orders Detail ===");
 
     setLoading(true);
 
     const order = await orderRepository.getOrderDetail(orderId);
-    setProducts(order.products)
+    setProducts(order.products);
+
+    console.log("order data customer local : ", orderData?.customer_name);
+    console.log("order data customer response : ", order?.customer_name);
+    console.log("======");
+    console.log("order data id  : ", orderData?.id);
+    console.log("order response id  : ", order?.id);
 
     console.log("order response :", order);
     console.log("order product :", order.products);
@@ -41,13 +60,12 @@ const OrderDetailScreen = ({
     setOrder(order);
 
     setLoading(false);
-
   };
 
   useEffect(() => {
     console.log("useEffect");
     fetchOrderDetail();
-    setOrderId(order.id)
+    setOrderId(orderData.id);
   }, [orderId]);
 
   return (
@@ -55,11 +73,11 @@ const OrderDetailScreen = ({
       <ScrollView style={{ paddingHorizontal: 16 }}>
         <View style={styles.container}>
           <Text style={styles.label}>Order ID</Text>
-          <Text style={styles.text_value}>{order.id}</Text>
+          <Text style={styles.text_value}>{orderData.id}</Text>
           <Text style={styles.label}>Customer Name</Text>
-          <Text style={styles.text_value}>{order.customer_name}</Text>
+          <Text style={styles.text_value}>{orderData.customer_name}</Text>
           <Text style={styles.label}>Total Order Price</Text>
-          <Text style={styles.text_value}>Rp {order.total_price}</Text>
+          <Text style={styles.text_value}>Rp {orderData.total_price}</Text>
 
           <Text
             style={[
@@ -70,17 +88,21 @@ const OrderDetailScreen = ({
             Product Detail
           </Text>
 
-          <FlatList
-            data={products}
-            renderItem={({ item }) => (
-              <ItemOrderProductDetail
-                product={item}
+          <View>
+            {isLoading ? (
+              <View style={styles.wrapper_indicator}>
+                <ActivityIndicator size="large" color="#1BA8DF" />
+              </View>
+            ) : (
+              <FlatList
+                data={products}
+                renderItem={({ item }) => (
+                  <ItemOrderProductDetail product={item} />
+                )}
               />
             )}
-            />
-
+          </View>
         </View>
-
       </ScrollView>
     </SafeAreaView>
   );
@@ -103,6 +125,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 
+  wrapper_indicator: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20,
+    flex: 1,
+  },
 });
 
 export default OrderDetailScreen;
