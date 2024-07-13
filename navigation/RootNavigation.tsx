@@ -65,7 +65,7 @@ const RootNavigator = () => {
         <RootStack.Screen
           name="order_edit"
           component={OrderEditScreen}
-          options={{
+          options={({ navigation }) => ({
             headerShown: true,
             headerTitleAlign: "center",
             headerTitle: () => (
@@ -73,7 +73,7 @@ const RootNavigator = () => {
                 <Text style={styles.headerTitleText}>Edit Order</Text>
               </View>
             ),
-          }}
+          })}
         />
       </RootStack.Navigator>
     </NavigationContainer>

@@ -35,7 +35,6 @@ const OrderDetailScreen = ({
     new GetOrderDetailUseCase()
   );
 
-  const [order, setOrder] = useState<OrderDetailModel>();
   const [products, setProducts] = useState<ProductOrderDetail[]>();
   const [isLoading, setLoading] = useState(false);
   const [orderId, setOrderId] = useState(String);
@@ -56,8 +55,6 @@ const OrderDetailScreen = ({
 
     console.log("order response :", order);
     console.log("order product :", order.products);
-
-    setOrder(order);
 
     setLoading(false);
   };
