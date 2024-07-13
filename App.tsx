@@ -1,5 +1,6 @@
 import { useFonts } from 'expo-font';
 import { StatusBar } from 'expo-status-bar';
+import RootNavigator from 'navigation/RootNavigation';
 import { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import textstyle from 'styles/textstyle';
@@ -19,18 +20,6 @@ export default function App() {
   }, [fontsLoaded]);
 
   return (
-    <View style={styles.container}>
-      <Text style={textstyle.TextParagraph1Bold}>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <RootNavigator/>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
