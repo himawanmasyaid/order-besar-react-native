@@ -1,4 +1,4 @@
-export interface OrderDetailModel {
+export interface ProductModel {
   data: Product[];
 }
 

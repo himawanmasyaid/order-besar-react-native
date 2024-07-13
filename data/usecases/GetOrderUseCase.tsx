@@ -1,17 +1,18 @@
+import { BASE_URL } from "data/Constants";
 import { OrderModel } from "data/model/OrderModel";
 
-export interface GetOrderUseCase {
+interface GetOrderUseCase {
     execute(page: number, limit: number): Promise<OrderModel>;
 }
 
-export class GetOrderUseCaseImpl implements GetOrderUseCase {
-
-    private readonly apiUrl = 'https://api.escuelajs.co/api/v1/products';
+class GetOrderUseCaseImpl implements GetOrderUseCase {
 
     async execute(page: number, limit: number): Promise<OrderModel> {
-        const response = await fetch(`${this.apiUrl}?page=${page}&limit=${limit}&customer_name&order_date`);
+        const response = await fetch(`${BASE_URL}orders?page=${page}&limit=${limit}&customer_name&order_date`);
         const data = await response.json();
         return data;
       }
 
 }
+
+export { GetOrderUseCaseImpl as GetOrderUseCase };
