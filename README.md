@@ -2,15 +2,27 @@
 
 
 ## Overview
------------
-The Weighbridge App is a mobile application developed using React Native and TypeScript, designed to manage and record weighbridge operations. It allows users to create, edit, and view weighbridge records, capturing details such as date and time, truck details, weights (inbound, outbound, and net), and additional notes.
+The Order Management App is a mobile application developed using React Native and TypeScript. It is designed to manage and track orders efficiently. The app supports creating, viewing, editing, and deleting orders with features such as endless scroll pagination for order lists, real-time price updates, and detailed order views. The application integrates with a mock API to fetch and manipulate order data.
 
 ## Features
------------
-Create new weighbridge records with detailed truck information.
-Edit existing weighbridge records, excluding truck identifier details.
-View a paginated list of weighbridge records with sorting options.
-Display comprehensive details for each weighbridge record.
+
+### 1. View Order List
+- **Paginated List**: View a list of orders with endless scroll functionality for continuous loading.
+
+### 2. Create New Order
+- **Product Selection**: Choose a product to display its price.
+- **Automatic Price Update**: The total price updates in real-time based on the selected product and quantity.
+
+### 3. Edit an Order
+- **Modify Order Details**: Change various details of an order, with the exception of the customer name.
+
+### 4. Delete an Order
+- **Confirmation Dialog**: A confirmation dialog is shown before an order is permanently deleted.
+
+### 5. View Order Details
+- **Detailed View**: Access and review comprehensive details for each order.
+
+
 
 ## Built With
 -----------
