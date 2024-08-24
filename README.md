@@ -54,6 +54,22 @@ To run the project locally, follow these steps:
 
 These commands will set up the project on your local machine and start the Expo development server. You can then use Expo Go (on iOS/Android) to view the app on your device or emulator.
 
+
+### Screenshots
+
+<p align="center">
+  <img src="screenshoots/order.png" width="200" />
+  <img src="screenshoots/delete.png" width="200" /> 
+  <img src="screenshoots/order_edit.png" width="200" />
+</p>
+
+<p align="center">
+  <img src="screenshoots/add_order.png" width="200" />
+  <img src="screenshoots/modal.png" width="200" />
+  <img src="screenshoots/order_detail.png" width="200" />
+</p>
+
+
 ## Contact
 -----------
 If you have any questions or feedback regarding this project, please reach out to me through GitHub or email.
